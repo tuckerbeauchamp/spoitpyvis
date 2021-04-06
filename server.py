@@ -14,11 +14,11 @@ import json
 
 with open("creds.json") as f:
     creds = json.load(f)
+
 client_id = creds.get("client_id")
 client_secret = creds.get("client_secret")
 
 redirect_uri = "http://127.0.0.1:5000/auth"
-# redirect_uri = "http://localhost:3000"
 
 
 scopes = ["user-library-read", "user-top-read"]
@@ -44,40 +44,6 @@ app = Flask(__name__)
 SESSION_TYPE = "filesystem"
 app.config.from_object(__name__)
 Session(app)  # CORS(app)
-
-
-def get_token(access_code):
-    auth_header = base64.b64encode(
-        six.text_type(client_id + ":" + client_secret).encode("ascii")
-    )
-    headers = {"Authorization": "Basic %s" % auth_header.decode("ascii")}
-    payload = {
-        "code": access_code,
-        "grant_type": "authorization_code",
-        "redirect_uri": redirect_uri,
-    }
-    response = requests.post(
-        f"https://accounts.spotify.com/api/token", data=payload, headers=headers
-    ).json()
-    # print(response)
-    # refresh_token = response.get("refresh_token")
-    access_token = response.get("access_token")
-    # expires_in = response.get("expires_in")
-    # username = spotipy.Spotify(auth=access_token).me().get("display_name")
-
-    # session[username] = "dumm"
-    return access_token
-
-
-@app.route("/set/")
-def set():
-    session["key"] = "value"
-    return "ok"
-
-
-@app.route("/get/")
-def get():
-    return session.get("key", "not set")
 
 
 @app.route("/")
@@ -134,8 +100,6 @@ def artist_analysis(artist, token):
         "tempo": afdf.tempo.mean(),
         "top_keys": afdf.key.value_counts()[:3].tolist(),
     }
-    # results = sp.audio_features(tracks)
-    # print("results", results)
 
 
 @app.route("/artists/<time_range>/<token>")
