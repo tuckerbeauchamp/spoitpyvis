@@ -135,3 +135,7 @@ def auth():
         # print(results)
         # return results
     return redirect(f"http://localhost:3000/dashboard/?token={token}", 302)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
