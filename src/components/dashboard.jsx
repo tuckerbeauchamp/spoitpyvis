@@ -1,94 +1,75 @@
-import React, { Component } from "react";
-import ArtistList from "./artistlist";
-import ArtistAnalysis from "./artistanalysis";
-import LineGraph from "./linegraph";
+import React, { useState, useEffect } from "react";
+import ArtistList from "./ArtistList";
+import ArtistAnalysis from "./ArtistAnalysis";
+import LineGraph from "./LineGraph";
 
-class Dashboard extends Component {
-  state = {
-    artists: [],
-    selectedArtistId: null,
-    selectedArtistName: null,
+function Dashboard() {
+  const [artists, setArtists] = useState([]);
+  const [artistId, setArtistId] = useState(null);
+  const [artistName, setArtistName] = useState(null);
+  const [artistFeatures, setArtistFeatures] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState(null);
+
+  const getTopArtists = async (timeRange) => {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get("token");
+      console.log("fetching artists...");
+      const { artists } = await (
+        await fetch("/artists/" + timeRange + "/" + token)
+      ).json();
+      setArtists(artists);
+    } catch (err) {
+      setError(err);
+    }
+
+    setIsLoaded(true);
   };
 
-  getTopArtists = (timeRange) => {
-    const urlParams = new URLSearchParams(window.location.search);
-
-    // if(this.getToken()) {
-
-    // } else {
-
-    // }
-    const token = urlParams.get("token");
-    console.log("fetching artists...");
-    fetch("/artists/" + timeRange + "/" + token)
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            artists: result.artists,
-          });
-        },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error,
-          });
-        }
-      );
-  };
-
-  handleArtistClick = (artistId, artistName) => {
+  const handleArtistClick = async (artistId, artistName) => {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("token");
     console.log("artist clicked with id", artistId);
-    // this.setState({
-    //   selectedArtistId: artistId,
-    //   selectedArtistName: artistName,
-    // });
-    fetch("/artists/audio_features/" + artistId + "/" + token)
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            selectedArtistTrackFeatures: result,
-            selectedArtistId: artistId,
-            selectedArtistName: artistName,
-          });
-        },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error,
-          });
-        }
-      );
-    console.log(this.state);
+
+    const data = await fetch(
+      "/artists/audio_features/" + artistId + "/" + token
+    );
+
+    const result = await data.json();
+
+    console.log("RESULT", result);
+
+    setArtistFeatures(result);
+    setArtistId(artistId);
+    setArtistName(artistName);
+
     document.getElementById("analysis").scrollIntoView();
   };
 
-  componentDidMount() {
+  useEffect(() => {
     console.log("Dashboard mounted");
     const urlParams = new URLSearchParams(window.location.search);
     console.log("Dashboard - fetching artists...");
-    this.getTopArtists("long_term");
-  }
+    getTopArtists("long_term");
+  }, []);
 
-  render() {
-    return (
-      <React.Fragment>
-        <ArtistList
-          onGetTopArtists={this.getTopArtists}
-          artists={this.state.artists}
-          onArtistClick={this.handleArtistClick}
-        ></ArtistList>
-        <ArtistAnalysis
-          selectedArtistName={this.state.selectedArtistName}
-          selectedArtistTrackFeatures={this.state.selectedArtistTrackFeatures}
-        ></ArtistAnalysis>
-      </React.Fragment>
-    );
-  }
+  console.log(artists)
+
+  return (
+    <>
+      <h1>Testing</h1>
+      <ArtistList
+        onGetTopArtists={getTopArtists}
+        artists={artists}
+        onArtistClick={handleArtistClick}
+      ></ArtistList>
+      <ArtistAnalysis
+        selectedArtistName={artistName}
+        selectedArtistTrackFeatures={artistFeatures}
+      ></ArtistAnalysis>
+    </>
+  );
 }
 
 export default Dashboard;
