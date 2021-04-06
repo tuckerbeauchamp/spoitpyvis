@@ -29,3 +29,4 @@ creds.json
 
 # flask
 flask_session/
+venv/
