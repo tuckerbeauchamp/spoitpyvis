@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { views } from "views";
-import { Menu, Segment } from "semantic-ui-react";
+import { Menu } from "semantic-ui-react";
 
 function Navbar() {
   const history = useHistory();
@@ -16,19 +15,24 @@ function Navbar() {
   return (
     <nav>
       <Menu pointing secondary>
-        {views.map(({ path, name }) => (
-          <Menu.Item
-            name={name}
-            path={path}
-            active={activeItem === "home"}
-            onClick={handleItemClick}
-          />
-        ))}
+        <Menu.Item
+          name="Home"
+          path="/"
+          active={activeItem === "/"}
+          onClick={handleItemClick}
+        />
+        <Menu.Item
+          name="Dashboard"
+          path="/dashboard"
+          active={activeItem === "/dashboard"}
+          onClick={handleItemClick}
+        />
 
         <Menu.Menu position="right">
           <Menu.Item
-            name="logout"
-            active={activeItem === "logout"}
+            name="Sign In"
+            path="/sign-in"
+            active={activeItem === "/sign-in"}
             onClick={handleItemClick}
           />
         </Menu.Menu>
