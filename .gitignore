@@ -4,6 +4,8 @@
 **/node_modules
 /.pnp
 .pnp.js
+venv/
+lib/
 
 # testing
 /coverage
@@ -29,5 +31,3 @@ creds.json
 
 # flask
 flask_session/
-venv/
-/lib

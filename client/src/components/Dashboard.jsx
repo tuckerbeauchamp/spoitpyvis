@@ -54,7 +54,7 @@ function Dashboard() {
     getTopArtists("long_term");
   }, []);
 
-  console.log(artists);
+  console.log("ARTISTS", artists);
 
   return (
     <>
