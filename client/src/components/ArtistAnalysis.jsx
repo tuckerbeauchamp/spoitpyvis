@@ -16,7 +16,6 @@ function ArtistAnalysis({ selectedArtistName, selectedArtistTrackFeatures }) {
           </div>
         </div>
       </div>
-      <h1 id="analysis">Artist Analysis</h1>
     </div>
   );
 }

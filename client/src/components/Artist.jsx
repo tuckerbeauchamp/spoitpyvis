@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 
 function Artist({ artistId, name, onArtistClick, imgUrl }) {
   return (
@@ -7,6 +7,7 @@ function Artist({ artistId, name, onArtistClick, imgUrl }) {
         <img
           className="img-thumbnail img-fluid rounded-circle mb-3 shadow-sm"
           src={imgUrl}
+          alt={name}
           style={{ height: "170px", width: "170px" }}
           onClick={() => onArtistClick(artistId, name)}
         ></img>
