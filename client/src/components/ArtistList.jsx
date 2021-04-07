@@ -3,7 +3,7 @@ import Artist from "./Artist";
 
 function ArtistList({ onGetTopArtists, artists, onArtistClick }) {
   return (
-    <div className="card">
+    <div className="card col">
       <div className="card-header bg-light">
         <div className="row align-items-center">
           <div className="col">
