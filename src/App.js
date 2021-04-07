@@ -6,7 +6,7 @@ import Dashboard from "./components/Dashboard";
 
 function App() {
   return (
-    <main className="container">
+    <main className="container-fluid">
       <h1>Application</h1>
       <BrowserRouter>
         <Switch>

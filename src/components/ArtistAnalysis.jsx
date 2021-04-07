@@ -4,7 +4,7 @@ import GraphHeader from "./GraphHeader";
 
 function ArtistAnalysis({ selectedArtistName, selectedArtistTrackFeatures }) {
   return (
-    <div class="row">
+    <div class="col">
       <div className="col-12">
         <div className="card-card-chart">
           <GraphHeader></GraphHeader>

@@ -54,20 +54,22 @@ function Dashboard() {
     getTopArtists("long_term");
   }, []);
 
-  console.log(artists)
+  console.log(artists);
 
   return (
     <>
       <h1>Testing</h1>
-      <ArtistList
-        onGetTopArtists={getTopArtists}
-        artists={artists}
-        onArtistClick={handleArtistClick}
-      ></ArtistList>
-      <ArtistAnalysis
-        selectedArtistName={artistName}
-        selectedArtistTrackFeatures={artistFeatures}
-      ></ArtistAnalysis>
+      <div className="row">
+        <ArtistList
+          onGetTopArtists={getTopArtists}
+          artists={artists}
+          onArtistClick={handleArtistClick}
+        ></ArtistList>
+        <ArtistAnalysis
+          selectedArtistName={artistName}
+          selectedArtistTrackFeatures={artistFeatures}
+        ></ArtistAnalysis>
+      </div>
     </>
   );
 }
