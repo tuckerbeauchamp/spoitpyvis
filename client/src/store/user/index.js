@@ -11,5 +11,5 @@ export const userReducer = (state, action) => {
 
 export const userState = {
   name: "",
-  token: ""
+  token: null
 }
